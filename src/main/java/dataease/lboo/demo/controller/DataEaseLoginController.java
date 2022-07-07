@@ -18,27 +18,33 @@ import java.util.UUID;
 @Controller
 public class DataEaseLoginController {
 
-    private static String dataeaseEndpoint = "<dataease endpoint>";
+    // 根域名
+    private static String domain = "fit2cloud.com";
+    // DataEase 访问地址，如 http://edu.fit2cloud.com
+    private static String dataeaseEndpoint = "http://edu.fit2cloud.com";
+    // 取自 DataEase 源码 application.yml 中的 rsa.public_key
     private static String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==";
     private static String accessKey = "<access key>";
     private static String secretKey = "<secret key>";
     private static String signature;
+    // 模拟登陆要使用的用户名
     private static String USERNAME = "<username>";
+    // 模拟登陆使用的密码，建议实际使用时生成随机密码
     private static String PASSWORD = "<password>";
     private static HttpClientConfig config;
 
     static {
+        signature = EncryptUtils.aesEncrypt(accessKey + "|" + UUID.randomUUID() + "|" + System.currentTimeMillis(), secretKey, accessKey);
+
         config = new HttpClientConfig();
         config.addHeader("accessKey", accessKey);
         config.addHeader("signature", signature);
-
-        signature = EncryptUtils.aesEncrypt(accessKey + "|" + UUID.randomUUID() + "|" + System.currentTimeMillis(), secretKey, accessKey);
     }
 
     @RequestMapping("/dataease")
     public String toDataEase(HttpServletResponse response) throws Exception {
         Cookie cookie = new Cookie("Authorization", getToken());
-        cookie.setDomain("fit2cloud.com");
+        cookie.setDomain(domain);
         cookie.setPath("/");
         response.addCookie(cookie);
         return "redirect:" + dataeaseEndpoint;
@@ -50,7 +56,7 @@ public class DataEaseLoginController {
     @RequestMapping("/dataease/logout")
     public String logoutDataEase(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Cookie cookie = new Cookie("Authorization", "");
-        cookie.setDomain("fit2cloud.com");
+        cookie.setDomain(domain);
         cookie.setPath("/");
         response.addCookie(cookie);
         return "redirect:https://fit2cloud.com";
