@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DataEase 模拟登录 demo</title>
+
+    <script>
+        try {
+            debugger;
+            let token = window.location.href.split('?')[1].split('=')[1];
+            document.cookie = 'Authorization=' + token + ';Path=/';
+            window.location.href='/';
+        } catch (e) {
+            window.alert('Token 解析失败，请联系系统管理员！');
+        }
+    </script>
+</head>
+<body style="font-size: 14px;font-weight: 500;">
+<span>正在跳转...</span><br/>
+</body>
+</html>

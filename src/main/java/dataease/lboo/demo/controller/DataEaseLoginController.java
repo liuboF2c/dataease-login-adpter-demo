@@ -40,6 +40,7 @@ public class DataEaseLoginController {
         config.addHeader("signature", signature);
     }
 
+    // 同域跳转，适用于同一根域名不同系统之间跳转
     @RequestMapping("/dataease")
     public String toDataEase(HttpServletResponse response) throws Exception {
         Cookie cookie = new Cookie("Authorization", getToken());
@@ -47,6 +48,28 @@ public class DataEaseLoginController {
         cookie.setPath("/");
         response.addCookie(cookie);
         return "redirect:" + dataeaseEndpoint;
+    }
+
+    // 跨域跳转，需要使用 Nginx 访问 DataEase 和 login-template.html
+    // 实际上就是通过与 DataEase 同域的前端页面 login-template.html 接收 token 并设置到 cookie 中来达到自动登录的效果
+    // 使用此方式时，dataeaseEndpoint 应填写 Nginx 地址
+    /* Nginx 配置参考
+      location / {
+          proxy_pass <DataEase服务器地址>;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $http_host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      }
+
+      location /sso-login {
+          alias   <login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html>;
+          index   login-template.html;
+      }
+     */
+    @RequestMapping("/front-login")
+    public String toDataEaseLogin(HttpServletResponse response) throws Exception {
+        String token = getToken();
+        return "redirect:" + dataeaseEndpoint + "/sso-login/login-template.html?token=" + token;
     }
 
     /**
@@ -57,6 +80,7 @@ public class DataEaseLoginController {
         Cookie cookie = new Cookie("Authorization", "");
         cookie.setDomain(domain);
         cookie.setPath("/");
+        cookie.setMaxAge(0);
         response.addCookie(cookie);
         return "redirect:https://fit2cloud.com";
     }
