@@ -3,12 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>DataEase 嵌入 demo</title>
+
+    <style>
+        body {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        iframe {
+            width: calc(100vw - 20px);
+            height: calc(100vh - 73px);
+            box-shadow: 2px 2px 4px 2px rgb(54 58 80 / 12%);
+            border: 1px solid #ddd;
+        }
+        button {
+            margin: 5px 0;
+        }
+    </style>
 </head>
-<body style="font-size: 14px;font-weight: 500;">
+<body>
 <span>下面是跨域嵌入的 DataEase 系统：</span><br/>
 <br/>
-<iframe style="width: 100vw;height: 100vh;" src="/front-login">
-
-</iframe>
+<iframe src="/front-login"/>
 </body>
 </html>

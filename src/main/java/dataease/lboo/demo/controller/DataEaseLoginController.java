@@ -53,6 +53,7 @@ public class DataEaseLoginController {
     // 跨域跳转，需要使用 Nginx 访问 DataEase 和 login-template.html
     // 实际上就是通过与 DataEase 同域的前端页面 login-template.html 接收 token 并设置到 cookie 中来达到自动登录的效果
     // 使用此方式时，dataeaseEndpoint 应填写 Nginx 地址
+    // 注意：新版本 Chrome 跨域访问使用 Iframe 嵌套时会禁止 set-cookie，可通过 Nginx 给 cookie 添加 SameSite 和 Secure 属性并添加 HTTPS 证书
     /* Nginx 配置参考
       location / {
           proxy_pass <DataEase服务器地址>;
