@@ -9,18 +9,48 @@
             font-size: 14px;
             font-weight: 500;
         }
+
         iframe {
             width: calc(100vw - 20px);
             height: calc(100vh - 73px);
             box-shadow: 2px 2px 4px 2px rgb(54 58 80 / 12%);
             border: 1px solid #ddd;
         }
+
         button {
             margin: 5px 0;
         }
     </style>
 </head>
 <body>
+<pre style="font-weight: normal">
+<b>跨域跳转，需要使用 Nginx 访问 DataEase 和 login-template.html</b>
+实际上就是通过与 DataEase 同域的前端页面 login-template.html 接收 token 并设置到 cookie 中来达到自动登录的效果
+使用此方式时，dataeaseEndpoint 应填写 Nginx 地址<br/>
+<b>注意：</b>新版本 Chrome 跨域访问使用 Iframe 嵌套时会禁止 set-cookie，可通过 Nginx 给 cookie 添加 SameSite 和 Secure 属性并添加
+HTTPS 证书
+<br/>
+Nginx 配置参考：
+location / {
+proxy_pass &lt;DataEase服务器地址&gt;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /sso-login {
+    alias   &lt;login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html&gt;
+    index   login-template.html;
+
+    location /sso-login {
+          if ( $arg_token != "" ) {
+                add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
+          }
+          alias    &lt;login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html&gt;
+          index   login-template.html;
+      }
+}
+</pre>
+<br/>
 <span>下面是跨域嵌入的 DataEase 系统：</span><br/>
 <br/>
 <iframe src="/front-login"/>
