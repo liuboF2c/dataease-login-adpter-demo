@@ -32,7 +32,7 @@ public class DataEaseLoginController {
     private static String PASSWORD = "<password>";
     private static HttpClientConfig config;
 
-    static {
+    private void initSignature() {
         signature = EncryptUtils.aesEncrypt(accessKey + "|" + UUID.randomUUID() + "|" + System.currentTimeMillis(), secretKey, accessKey);
 
         config = new HttpClientConfig();
@@ -63,6 +63,9 @@ public class DataEaseLoginController {
       }
 
       location /sso-login {
+          if ( $arg_token != "" ) {
+              add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
+          }
           alias   <login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html>;
           index   login-template.html;
       }
@@ -87,6 +90,7 @@ public class DataEaseLoginController {
     }
 
     private String getToken() throws Exception {
+        initSignature();
         String username = RsaUtil.encryptByPublicKey(publicKey, USERNAME);
         String password = RsaUtil.encryptByPublicKey(publicKey, PASSWORD);
         updatePassword(USERNAME, PASSWORD);

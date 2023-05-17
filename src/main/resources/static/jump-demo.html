@@ -31,24 +31,20 @@
 HTTPS 证书
 <br/>
 Nginx 配置参考：
-location / {
-proxy_pass &lt;DataEase服务器地址&gt;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header Host $http_host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    }
-    location /sso-login {
-    alias   &lt;login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html&gt;
-    index   login-template.html;
+        location / {
+            proxy_pass &lt;DataEase服务器地址&gt;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
 
-    location /sso-login {
-          if ( $arg_token != "" ) {
+        location /sso-login {
+            if ( $arg_token != "" ) {
                 add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
-          }
-          alias    &lt;login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html&gt;
-          index   login-template.html;
-      }
-}
+            }
+            alias   login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/;
+            index   login-template.html;
+        }
 </pre>
 <br/>
 <span>下面是跨域嵌入的 DataEase 系统：</span><br/>
