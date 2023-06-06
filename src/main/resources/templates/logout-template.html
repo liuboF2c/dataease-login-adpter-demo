@@ -6,15 +6,14 @@
 
     <script>
         try {
-            let token = window.location.href.split('?')[1].split('=')[1];
-            document.cookie = 'Authorization=' + token + ';SameSite=None;Secure;Path=/';
+            document.cookie='Authorization=;SameSite=None;Secure;Path=/;expires='+new Date().toUTCString() + ';';
             window.location.href='/';
         } catch (e) {
-            window.alert('Token 解析失败，请联系系统管理员！');
+            window.alert('操作失败，请联系系统管理员！');
         }
     </script>
 </head>
 <body style="font-size: 14px;font-weight: 500;">
-<span>正在跳转...</span><br/>
+<span>正在登出...</span><br/>
 </body>
 </html>

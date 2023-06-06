@@ -50,6 +50,7 @@ public class DataEaseLoginController {
         return "redirect:" + dataeaseEndpoint;
     }
 
+    // 同域跳转不需要使用此方法，也不需要配置 Nginx
     // 跨域跳转，需要使用 Nginx 访问 DataEase 和 login-template.html
     // 实际上就是通过与 DataEase 同域的前端页面 login-template.html 接收 token 并设置到 cookie 中来达到自动登录的效果
     // 使用此方式时，dataeaseEndpoint 应填写 Nginx 地址
@@ -73,7 +74,7 @@ public class DataEaseLoginController {
     @RequestMapping("/front-login")
     public String toDataEaseLogin(HttpServletResponse response) throws Exception {
         String token = getToken();
-        return "redirect:" + dataeaseEndpoint + "/sso-login/login-template.html?token=" + token;
+        return "redirect:" + dataeaseEndpoint + "/sso/login-template.html?token=" + token;
     }
 
     /**
@@ -86,9 +87,14 @@ public class DataEaseLoginController {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        return "redirect:https://fit2cloud.com";
+        return "redirect:" + dataeaseEndpoint;
     }
 
+    /**
+     * 模拟登录并获取 Token
+     * @return
+     * @throws Exception
+     */
     private String getToken() throws Exception {
         initSignature();
         String username = RsaUtil.encryptByPublicKey(publicKey, USERNAME);
@@ -104,6 +110,11 @@ public class DataEaseLoginController {
         return JSONObject.parseObject(result).getJSONObject("data").getString("token");
     }
 
+    /**
+     * 修改用户密码
+     * @param username
+     * @param password
+     */
     private void updatePassword(String username, String password) {
         String userId = getUserId(username);
         String body = "{\n" +
@@ -119,6 +130,11 @@ public class DataEaseLoginController {
     }
 
 
+    /**
+     *  根据用户名获取用户 ID
+     * @param username 用户名(唯一标识)
+     * @return
+     */
     private String getUserId(String username) {
         String body = "{\n" +
                 "    \"conditions\": [\n" +

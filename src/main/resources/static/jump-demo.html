@@ -21,6 +21,12 @@
             margin: 5px 0;
         }
     </style>
+
+    <script>
+        function logoutDataEase(){
+            document.getElementsByTagName("iframe")[0].src = "https://localhost.fit2cloud.com/sso/logout-template.html";
+        }
+    </script>
 </head>
 <body>
 <pre style="font-weight: normal">
@@ -38,7 +44,7 @@ Nginx 配置参考：
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         }
 
-        location /sso-login {
+        location /sso {
             if ( $arg_token != "" ) {
                 add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
             }
@@ -48,6 +54,8 @@ Nginx 配置参考：
 </pre>
 <br/>
 <span>下面是跨域嵌入的 DataEase 系统：</span><br/>
+<br/>
+<button onclick="logoutDataEase()">登出 DataEase</button>
 <br/>
 <iframe src="/front-login"/>
 </body>
