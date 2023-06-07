@@ -91,6 +91,14 @@ public class DataEaseLoginController {
     }
 
     /**
+     * 登出时需要清除 cookie，否则会出现一直登录中问题
+     */
+    @RequestMapping("/dataease/crossorigin/logout")
+    public String logoutCrossOriginDataEase(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return "redirect:" + dataeaseEndpoint + "/sso/logout-template.html";
+    }
+
+    /**
      * 模拟登录并获取 Token
      * @return
      * @throws Exception

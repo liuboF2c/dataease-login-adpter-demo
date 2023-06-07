@@ -24,7 +24,10 @@
 
     <script>
         function logoutDataEase(){
-            document.getElementsByTagName("iframe")[0].src = "https://localhost.fit2cloud.com/sso/logout-template.html";
+            document.getElementsByTagName("iframe")[0].src = "/dataease/crossorigin/logout";
+        }
+        function loginDataEase(){
+            document.getElementsByTagName("iframe")[0].src = "/front-login";
         }
     </script>
 </head>
@@ -45,8 +48,11 @@ Nginx 配置参考：
         }
 
         location /sso {
-            if ( $arg_token != "" ) {
+            if ($request_uri ~* "/login") {
                 add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
+            }
+            if ($request_uri ~* "/logout") {
+                add_header Set-Cookie 'Authorization=deleteMe;SameSite=None;expires=Wed, 07 Jun 2023 01:57:40 GMT;Secure;Path=/';
             }
             alias   login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/;
             index   login-template.html;
@@ -55,7 +61,7 @@ Nginx 配置参考：
 <br/>
 <span>下面是跨域嵌入的 DataEase 系统：</span><br/>
 <br/>
-<button onclick="logoutDataEase()">登出 DataEase</button>
+<button onclick="loginDataEase()">登录 DataEase</button><button onclick="logoutDataEase()">登出 DataEase</button>
 <br/>
 <iframe src="/front-login"/>
 </body>
