@@ -32,12 +32,28 @@ public class DataEaseLoginController {
     private static String PASSWORD = "<password>";
     private static HttpClientConfig config;
 
-    private void initSignature() {
+    private static void initSignature() {
         signature = EncryptUtils.aesEncrypt(accessKey + "|" + UUID.randomUUID() + "|" + System.currentTimeMillis(), secretKey, accessKey);
 
         config = new HttpClientConfig();
         config.addHeader("accessKey", accessKey);
         config.addHeader("signature", signature);
+    }
+
+    /**
+     * 输出 signature 和用户名密码加密字符串，可用于在 API 查看界面调试
+     *
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        initSignature();
+        System.out.println("signature：" + signature);
+        String username = RsaUtil.encryptByPublicKey(publicKey, USERNAME);
+        String password = RsaUtil.encryptByPublicKey(publicKey, PASSWORD);
+        System.out.println("username：" + username);
+        System.out.println("password：" + password);
+
     }
 
     // 同域跳转，适用于同一根域名不同系统之间跳转
@@ -51,26 +67,6 @@ public class DataEaseLoginController {
     }
 
     // 同域跳转不需要使用此方法，也不需要配置 Nginx
-    // 跨域跳转，需要使用 Nginx 访问 DataEase 和 login-template.html
-    // 实际上就是通过与 DataEase 同域的前端页面 login-template.html 接收 token 并设置到 cookie 中来达到自动登录的效果
-    // 使用此方式时，dataeaseEndpoint 应填写 Nginx 地址
-    // 注意：新版本 Chrome 跨域访问使用 Iframe 嵌套时会禁止 set-cookie，可通过 Nginx 给 cookie 添加 SameSite 和 Secure 属性并添加 HTTPS 证书
-    /* Nginx 配置参考
-      location / {
-          proxy_pass <DataEase服务器地址>;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header Host $http_host;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      }
-
-      location /sso-login {
-          if ( $arg_token != "" ) {
-              add_header Set-Cookie 'Authorization=$arg_token;SameSite=None;Secure;Path=/';
-          }
-          alias   <login-template.html 存放路径，login-template.html 取自本项目 src/main/resources/templates/login-template.html>;
-          index   login-template.html;
-      }
-     */
     @RequestMapping("/front-login")
     public String toDataEaseLogin(HttpServletResponse response) throws Exception {
         String token = getToken();
@@ -100,6 +96,7 @@ public class DataEaseLoginController {
 
     /**
      * 模拟登录并获取 Token
+     *
      * @return
      * @throws Exception
      */
@@ -120,6 +117,7 @@ public class DataEaseLoginController {
 
     /**
      * 修改用户密码
+     *
      * @param username
      * @param password
      */
@@ -139,7 +137,8 @@ public class DataEaseLoginController {
 
 
     /**
-     *  根据用户名获取用户 ID
+     * 根据用户名获取用户 ID
+     *
      * @param username 用户名(唯一标识)
      * @return
      */
