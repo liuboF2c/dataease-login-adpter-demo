@@ -6,6 +6,7 @@ import dataease.lboo.demo.util.HttpClientConfig;
 import dataease.lboo.demo.util.HttpClientUtil;
 import dataease.lboo.demo.util.RsaUtil;
 import org.apache.commons.lang.BooleanUtils;
+import org.apache.logging.log4j.util.Base64Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,6 +55,7 @@ public class DataEaseLoginController {
         System.out.println("username：" + username);
         System.out.println("password：" + password);
 
+        System.out.println("password Base64：" + Base64Util.encode(PASSWORD));
     }
 
     // 同域跳转，适用于同一根域名不同系统之间跳转
@@ -117,6 +119,8 @@ public class DataEaseLoginController {
 
     /**
      * 修改用户密码
+     * 1.18.8 以后的版本需要使用 Base64 加密 password
+     * 小于等于 1.18.7 的版本请移除 Base64 加密方法
      *
      * @param username
      * @param password
@@ -124,7 +128,7 @@ public class DataEaseLoginController {
     private void updatePassword(String username, String password) {
         String userId = getUserId(username);
         String body = "{\n" +
-                "  \"newPassword\": \"" + password + "\",\n" +
+                "  \"newPassword\": \"" + Base64Util.encode(password) + "\",\n" +
                 "  \"userId\": " + userId + "\n" +
                 "}";
         String result = HttpClientUtil.post(dataeaseEndpoint + "/api/user/adminUpdatePwd", body, config);
