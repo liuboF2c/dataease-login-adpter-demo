@@ -128,7 +128,7 @@ public class DataEaseLoginController {
     private void updatePassword(String username, String password) {
         String userId = getUserId(username);
         String body = "{\n" +
-                "  \"newPassword\": \"" + Base64Util.encode(password) + "\",\n" +
+                "  \"newPassword\": \"" + Base64Util.encode(password)/* 1.18.8 以后的版本需要使用 Base64 加密 password, 小于等于 1.18.7 的版本请移除 Base64 加密方法 */ + "\",\n" +
                 "  \"userId\": " + userId + "\n" +
                 "}";
         String result = HttpClientUtil.post(dataeaseEndpoint + "/api/user/adminUpdatePwd", body, config);
