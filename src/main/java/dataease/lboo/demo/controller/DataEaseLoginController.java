@@ -18,9 +18,9 @@ import java.util.UUID;
 @Controller
 public class DataEaseLoginController {
 
-    // 根域名
+    // 根域名，跨域场景无需配置此项
     private static String domain = "fit2cloud.com";
-    // DataEase 访问地址，如 http://edu.fit2cloud.com
+    // DataEase 访问地址，如 http://edu.fit2cloud.com，跨域场景下此处填写 Nginx 地址
     private static String dataeaseEndpoint = "http://edu.fit2cloud.com";
     // 取自 DataEase 源码 application.yml 中的 rsa.public_key
     private static String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANL378k3RiZHWx5AfJqdH9xRNBmD9wGD2iRe41HdTNF8RUhNnHit5NpMNtGL0NPTSSpPjjI1kJfVorRvaQerUgkCAwEAAQ==";
