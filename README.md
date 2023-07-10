@@ -7,7 +7,7 @@
 ## 跨域模拟登录使用方式
 > 1. 修改 DataEaseLoginController 中的相关变量
 > 2. 部署并配置 Nginx，使用 Nginx 代理访问 DataEase，并配置 HTTPS（HTTPS 配置可参考 [配置 DataEase 使用 HTTPS 访问](https://kb.fit2cloud.com/?p=9)）
-> 3. 将本项目中的 login-template.html 放置到 Nginx 所在服务器，并配置静态访问地址
+> 3. 将本项目中的 login-template.html 和 logout-template.html 放置到 Nginx 所在服务器，并配置静态访问地址
 ```shell
     # Nginx 配置参考：
     location / {
