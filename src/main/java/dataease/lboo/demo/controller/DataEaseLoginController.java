@@ -147,6 +147,8 @@ public class DataEaseLoginController {
      * @return
      */
     private String getUserId(String username) {
+        /*
+        1.18.10及之前版本使用此配置
         String body = "{\n" +
                 "    \"conditions\": [\n" +
                 "        {\n" +
@@ -156,6 +158,11 @@ public class DataEaseLoginController {
                 "        }\n" +
                 "    ],\n" +
                 "    \"orders\": []\n" +
+                "}";
+        */
+        /* 1.18.11 及之后版本使用此配置 */
+        String body = "{\n" +
+                "\"keyword\": \"" + username + "\"\n" +
                 "}";
         String result = HttpClientUtil.post(dataeaseEndpoint + "/api/user/userGrid/1/1", body, config);
         JSONObject jsonObject = JSONObject.parseObject(result);
