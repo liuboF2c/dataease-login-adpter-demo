@@ -126,7 +126,7 @@ public class DataEaseLoginController {
      * @param password
      */
     private void updatePassword(String username, String password) {
-        String userId = getUserId(username);
+        String userId = getUserIdByTransAccount(username);
         String body = "{\n" +
                 "  \"newPassword\": \"" + Base64Util.encode(password)/* 1.18.8 以后的版本需要使用 Base64 加密 password, 小于等于 1.18.7 的版本请移除 Base64 加密方法 */ + "\",\n" +
                 "  \"userId\": " + userId + "\n" +
@@ -139,33 +139,15 @@ public class DataEaseLoginController {
         }
     }
 
-
     /**
      * 根据用户名获取用户 ID
-     *
-     * @param username 用户名(唯一标识)
+     * @param username
      * @return
      */
-    private String getUserId(String username) {
-        /*
-        1.18.10及之前版本使用此配置
-        String body = "{\n" +
-                "    \"conditions\": [\n" +
-                "        {\n" +
-                "            \"field\": \"username\",\n" +
-                "            \"operator\": \"eq\",\n" +
-                "            \"value\": \"" + username + "\"\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"orders\": []\n" +
-                "}";
-        */
-        /* 1.18.11 及之后版本使用此配置 */
-        String body = "{\n" +
-                "\"keyword\": \"" + username + "\"\n" +
-                "}";
-        String result = HttpClientUtil.post(dataeaseEndpoint + "/api/user/userGrid/1/1", body, config);
+    private String getUserIdByTransAccount(String username) {
+        String body = "{\"account\":\"" + username + "\"}";
+        String result = HttpClientUtil.sendGetJson(dataeaseEndpoint + "/api/user/transAccount", body, config);
         JSONObject jsonObject = JSONObject.parseObject(result);
-        return jsonObject.getJSONObject("data").getJSONArray("listObject").getJSONObject(0).getString("userId");
+        return jsonObject.getString("data");
     }
 }

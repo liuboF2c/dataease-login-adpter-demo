@@ -1,5 +1,6 @@
 package dataease.lboo.demo.util;
 
+import cn.hutool.http.HttpRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -100,6 +101,28 @@ public class HttpClientUtil {
             } catch (Exception e) {
                 logger.error("HttpClient关闭连接失败", e);
             }
+        }
+    }
+
+    /**
+     * Get http请求，携带请求体
+     *
+     * @param url    请求地址
+     * @param config 配置项，如果null则使用默认配置
+     * @return 响应结果字符串
+     */
+    public static String sendGetJson(String url, String json, HttpClientConfig config) {
+        try {
+            Map<String, String> headers = config.getHeader();//存放请求头，可以存放多个请求头
+            String result = HttpRequest.get(url)
+                    .header("Content-Type", "application/json")//头信息，多个头信息多次调用此方法即可
+                    .addHeaders(headers)
+                    .body(json)
+                    .execute().body();
+            return result;
+        } catch (Exception e) {
+            logger.error("HttpClient查询失败", e);
+            throw new RuntimeException("HttpClient查询失败: " + e.getMessage());
         }
     }
 
