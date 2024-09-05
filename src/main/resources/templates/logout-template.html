@@ -6,8 +6,12 @@
 
     <script>
         try {
-            document.cookie='Authorization=;SameSite=None;Secure;Path=/;expires='+new Date().toUTCString() + ';';
-            window.location.href='/';
+            let custom_auth_logout_url = localStorage.getItem("custom_auth_logout_url");
+            let jsonObj = JSON.parse(custom_auth_logout_url);
+            let logout_url = jsonObj.v.replace(/['"]/g, '');
+            debugger
+            localStorage.clear();
+            window.location.href=logout_url;
         } catch (e) {
             window.alert('操作失败，请联系系统管理员！');
         }

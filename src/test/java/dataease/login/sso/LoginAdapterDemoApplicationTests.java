@@ -1,4 +1,4 @@
-package dataease.lboo.demo;
+package dataease.login.sso;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

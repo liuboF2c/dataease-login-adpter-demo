@@ -1,4 +1,4 @@
-package dataease.lboo.demo.util;
+package dataease.login.sso.util;
 
 import cn.hutool.http.HttpRequest;
 import org.apache.commons.lang3.StringUtils;

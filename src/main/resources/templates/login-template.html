@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>DataEase 模拟登录 demo</title>
-
-    <script>
-        try {
-            let token = window.location.href.split('?')[1].split('=')[1];
-            document.cookie = 'Authorization=' + token + ';SameSite=None;Secure;Path=/';
-            window.location.href='/';
-        } catch (e) {
-            window.alert('Token 解析失败，请联系系统管理员！');
-        }
-    </script>
 </head>
 <body style="font-size: 14px;font-weight: 500;">
 <span>正在跳转...</span><br/>
+<script>
+    try {
+        let timestamp = new Date().getTime();
+        function getUrlParams(url) {
+            const urlParams = new URLSearchParams(url.split('?')[1]);
+            const params = {};
+            for (let param of urlParams.entries()) {
+                params[param[0]] = param[1];
+            }
+            return params;
+        }
+        let url = window.location.href;
+        let params = getUrlParams(url)
+
+        debugger
+        let token =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["token"]+'\\""}'
+        let custom_auth_logout_url =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["logout_url"]+'\\""}'
+        let exp =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["exp"]+'\\""}'
+        localStorage.setItem("user.token", token);
+        localStorage.setItem("user.exp", exp);
+        localStorage.setItem("custom_auth_logout_url",custom_auth_logout_url);
+        window.location.href='/';
+    } catch (e) {
+        window.alert('Token 解析失败，请联系系统管理员！');
+    }
+</script>
 </body>
 </html>

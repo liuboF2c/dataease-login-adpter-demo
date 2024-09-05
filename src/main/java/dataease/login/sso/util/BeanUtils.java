@@ -1,4 +1,4 @@
-package dataease.lboo.demo.util;
+package dataease.login.sso.util;
 
 import org.apache.commons.lang3.StringUtils;
 

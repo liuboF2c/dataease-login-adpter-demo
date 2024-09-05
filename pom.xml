@@ -8,11 +8,12 @@
         <version>2.7.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>dataease.lboo</groupId>
-    <artifactId>login-adapter-demo</artifactId>
+    <groupId>dataease</groupId>
+    <artifactId>dataease-sso</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>login-adapter-demo</name>
-    <description>login-adapter-demo</description>
+    <name>dataease-sso</name>
+    <description>dataease-sso</description>
+
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -79,6 +80,18 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.83</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.12.1</version>
         </dependency>
 
     </dependencies>

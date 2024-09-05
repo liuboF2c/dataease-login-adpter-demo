@@ -1,13 +1,16 @@
-package dataease.lboo.demo;
+package dataease.login.sso;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author limin
+ */
 @SpringBootApplication
-public class LoginAdapterDemoApplication {
+public class LoginSsoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LoginAdapterDemoApplication.class, args);
+        SpringApplication.run(LoginSsoApplication.class, args);
     }
 
 }

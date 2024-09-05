@@ -1,4 +1,4 @@
-package dataease.lboo.demo.util;
+package dataease.login.sso.util;
 
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.config.RequestConfig.Builder;
