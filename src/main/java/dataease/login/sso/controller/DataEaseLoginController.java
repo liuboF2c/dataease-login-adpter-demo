@@ -53,9 +53,8 @@ public class DataEaseLoginController {
     @GetMapping("/dataease")
     public String dataease() throws Exception {
         JSONObject result = getToken();
-        String token = result.getString("token");
-        String exp = result.getString("exp");
-        return dataeaseEndpoint + "/sso/login-template.html?token=" + token + "&exp=" + exp + "&logout_url=" + redictUrlEndpoint;
+        result.put("logout_url", redictUrlEndpoint);
+        return result.toString();
     }
 
     @RequestMapping("/front-login")

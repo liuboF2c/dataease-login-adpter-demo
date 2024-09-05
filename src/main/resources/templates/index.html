@@ -18,11 +18,7 @@
                     try {
                         let timestamp = new Date().getTime();
                         function getUrlParams(url) {
-                            const urlParams = new URLSearchParams(url.split('?')[1]);
-                            const params = {};
-                            for (let param of urlParams.entries()) {
-                                params[param[0]] = param[1];
-                            }
+                            const params = JSON.parse(url);
                             return params;
                         }
                         let params = getUrlParams(urlStr)
