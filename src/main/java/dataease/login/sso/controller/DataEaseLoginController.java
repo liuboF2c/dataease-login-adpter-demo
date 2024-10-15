@@ -80,7 +80,7 @@ public class DataEaseLoginController {
      * @throws Exception
      */
     private JSONObject getToken() throws Exception {
-        // TODO: 此处逻辑可修改为使用动态用户账号密码进行登陆，需要调用获取用户接口和修改用户密码接口来保证模拟登录成功
+        // TODO: 此处逻辑可修改为使用动态用户账号密码进行登陆，需要调用获取用户接口和重置用户密码接口来保证模拟登录成功
         // TODO：参考知识库接口调用指南 https://kb.fit2cloud.com/?p=90307bd3-9dd5-4626-b808-e7efa4159508
         String publicKey = getDataEaseKey();
         String username = RsdUtil.encrypt(USERNAME, RsdUtil.getPublicKey(publicKey));
