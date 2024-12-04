@@ -29,7 +29,7 @@ import java.util.*;
 public class DataEaseLoginController {
 
     /**
-     * 填写DataEase的访问地址
+     * 填写DataEase的nginx代理访问地址
      */
     private static String dataeaseEndpoint = "http://10.1.13.137:8000/";
     /**
