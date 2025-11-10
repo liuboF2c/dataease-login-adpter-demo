@@ -13,9 +13,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ import java.util.*;
 /**
  * @author limin
  */
-@RestController
+@Controller
 public class DataEaseLoginController {
 
     /**
@@ -48,8 +48,6 @@ public class DataEaseLoginController {
     private static final String PK_SEPARATOR = "-pk_separator-";
     private static HttpClientConfig config;
 
-
-    @Autowired
     @GetMapping("/dataease")
     public String dataease() throws Exception {
         JSONObject result = getToken();
