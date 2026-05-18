@@ -24,8 +24,12 @@
         let token =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["token"]+'\\""}'
         let custom_auth_logout_url =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["logout_url"]+'\\""}'
         let exp =  '{"c":'+timestamp+',"e":253402300799000,"v":"\\"'+params["exp"]+'\\""}'
-        localStorage.setItem("user.token", token);
-        localStorage.setItem("user.exp", exp);
+        //如果版本小于2.10.21则用下方配置
+        //localStorage.setItem("user.token", token);
+        //localStorage.setItem("user.exp", exp);
+        //如果版本大于等于2.10.21则用下方配置
+        localStorage.setItem("de_v2_user.token", token);
+        localStorage.setItem("de_v2_user.exp", exp);
         localStorage.setItem("custom_auth_logout_url",custom_auth_logout_url);
         window.location.href='/';
     } catch (e) {
